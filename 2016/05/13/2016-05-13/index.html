@@ -1,0 +1,740 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="internship,ardb," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/avatar.jpg?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="ARDB简介">
+<meta name="keywords" content="internship,ardb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARDB使用测试相关">
+<meta property="og:url" content="http://yoursite.com/2016/05/13/2016-05-13/index.html">
+<meta property="og:site_name" content="My Bakery">
+<meta property="og:description" content="ARDB简介">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i3.buimg.com/62902f14ec64d4f3.png">
+<meta property="og:image" content="http://i3.buimg.com/d8c734abf4abdd44.png">
+<meta property="og:image" content="http://i3.buimg.com/073886155259a132.png">
+<meta property="og:image" content="http://i3.buimg.com/bbd8c36fed49f544.png">
+<meta property="og:image" content="http://i3.buimg.com/b659b428b3cffdec.png">
+<meta property="og:image" content="http://i2.buimg.com/9f65c9cfcb747127.png">
+<meta property="og:image" content="http://i2.buimg.com/7ebd701105ad6315.png">
+<meta property="og:image" content="http://i2.buimg.com/55cbcdae57762ba4.png">
+<meta property="og:updated_time" content="2018-08-27T12:06:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ARDB使用测试相关">
+<meta name="twitter:description" content="ARDB简介">
+<meta name="twitter:image" content="http://i3.buimg.com/62902f14ec64d4f3.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> ARDB使用测试相关 | My Bakery </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">My Bakery</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ARDB使用测试相关
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-05-13T11:56:04+08:00" content="2016-05-13">
+              2016-05-13
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/13/2016-05-13/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/13/2016-05-13/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          <span id="busuanzi_container_page_pv">
+            &nbsp; | &nbsp;
+            阅读量<span id="busuanzi_value_page_pv"></span>次
+          </span>
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><h2 id="ARDB简介"><a href="#ARDB简介" class="headerlink" title="ARDB简介"></a><a href="http://yinqiwen.github.io/ardb/2014/08/23/ardbintroduction/" target="_blank" rel="noopener">ARDB简介</a></h2><a id="more"></a>
+<p><strong>上述链接介绍了特性，支持不支持，与redis的优劣势，还有安装等</strong><br>Ardb是一个C/C++开发的完全兼容Redis协议的NoSQL存储服务，支持绝大部分Redis命令以及数据结构如list/hash/set/sorted set，你可以很容易将依赖redis的业务在Redis和Ardb之间来回迁移。</p>
+<p>Ardb的存储基于现有成熟的KV存储引擎实现，理论上任何类似B-Tree/LSM Tree实现的KV存储实现均可作为Ardb的底层存储实现，目前Ardb支持LevelDB/RocksDB/LMDB.</p>
+<p>Ardb项目的目的不是为了替换Redis（这点很重要）， 而是作为Redis的补充存在。Ardb重点解决的是在性能可接受的情况下单机支持远超过内存限制的数据量， 以及与Redis之间的互通的问题。</p>
+<h2 id="ARDB安装及运行-centos"><a href="#ARDB安装及运行-centos" class="headerlink" title="ARDB安装及运行,centos"></a>ARDB安装及运行,centos</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone --depth=<span class="number">1</span> https://github.com/yinqiwen/ardb.git</span><br><span class="line">cd ardb</span><br><span class="line">make <span class="comment">#默认安装引擎是rocksdb，若要切换引擎则使用storage_engine=leveldb make</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意事项</strong><br>有两个依赖项需要安装<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install bzip2-devel</span><br><span class="line">sudo yum install zlib-devel</span><br></pre></td></tr></table></figure></p>
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd src</span><br><span class="line">./ardb-server ../ardb.conf</span><br></pre></td></tr></table></figure>
+<p><strong>配置文件ardb.conf可以修改查看底层引擎的配置</strong></p>
+<h2 id="使用redis附带benchmark测试"><a href="#使用redis附带benchmark测试" class="headerlink" title="使用redis附带benchmark测试"></a>使用redis附带benchmark测试</h2><h3 id="相关配置"><a href="#相关配置" class="headerlink" title="相关配置"></a>相关配置</h3><blockquote>
+<p>GCC Version:4.8.2<br>OS Version:Centos 64<br>redis Version:3.03<br>ardb Version,忘记录了，昨天ardb更新了新版本，并且作者在首页只做了rocksdb为底层的ardb和redis的对比图。<br>leveldb，rocksdb，lmdb使用默认配置。<br>链接并发数50，request100000，内存1.4GB，SSD20GB</p>
+</blockquote>
+<p><img src="http://i3.buimg.com/62902f14ec64d4f3.png" alt="ardb-benchmark测试"></p>
+<h2 id="Redis-Sentinel主从机制兼容性测试"><a href="#Redis-Sentinel主从机制兼容性测试" class="headerlink" title="Redis Sentinel主从机制兼容性测试"></a>Redis Sentinel主从机制兼容性测试</h2><p>初始状态：<br>master:16379<br>slave1:16479<br>slave2:16579</p>
+<p>1.master 挂了短时间内重连，仍然是16379<br>2.master 挂了，切换主备，master变为16579<br>3.16379重连，master仍然是16579<br>4.挂16579，master切换到16479 //如果挂了之后立马重连，任然切换master<br>重连16579，master不变</p>
+<h2 id="对以levelDB为引擎的ardb进行时间，内存，硬盘监测"><a href="#对以levelDB为引擎的ardb进行时间，内存，硬盘监测" class="headerlink" title="对以levelDB为引擎的ardb进行时间，内存，硬盘监测"></a>对以levelDB为引擎的ardb进行时间，内存，硬盘监测</h2><h3 id="测试方式"><a href="#测试方式" class="headerlink" title="测试方式"></a>测试方式</h3><blockquote>
+<p>1.以1000000次操作为一组，进行内存，时间，硬盘消耗的监测。<br>2.每次操作以set为主，中间穿插get，get/set = 1/100<br>3.测试情况分两类，一类无expire操作，一类设置key过期时间为5s</p>
+</blockquote>
+<h3 id="Test1-无expire操作"><a href="#Test1-无expire操作" class="headerlink" title="Test1(无expire操作)"></a>Test1(无expire操作)</h3><h4 id="时间监测图"><a href="#时间监测图" class="headerlink" title="时间监测图"></a>时间监测图</h4><p>横坐标是总次数，纵坐标是每组耗时<br><img src="http://i3.buimg.com/d8c734abf4abdd44.png" alt="消耗时间"><br><strong>明显出现了个突兀点</strong><br>查询数据，发现只有一个突兀点，可能是由于意外造成去了突兀点，效果如下<br><img src="http://i3.buimg.com/073886155259a132.png" alt="消耗时间"></p>
+<h4 id="内存监测图"><a href="#内存监测图" class="headerlink" title="内存监测图"></a>内存监测图</h4><p>横坐标是总次数，纵坐标是内存消耗<br><img src="http://i3.buimg.com/bbd8c36fed49f544.png" alt="内存消耗"></p>
+<h4 id="硬盘监测图"><a href="#硬盘监测图" class="headerlink" title="硬盘监测图"></a>硬盘监测图</h4><p>横坐标是总次数，纵坐标是硬盘消耗<br><img src="http://i3.buimg.com/b659b428b3cffdec.png" alt="硬盘消耗"></p>
+<h3 id="Test2-expire-key-5"><a href="#Test2-expire-key-5" class="headerlink" title="Test2(expire key 5)"></a>Test2(expire key 5)</h3><h4 id="时间监测图-1"><a href="#时间监测图-1" class="headerlink" title="时间监测图"></a>时间监测图</h4><p>横坐标是总次数，纵坐标是每组耗时<br><img src="http://i2.buimg.com/9f65c9cfcb747127.png" alt="消耗时间"></p>
+<h4 id="内存监测图-1"><a href="#内存监测图-1" class="headerlink" title="内存监测图"></a>内存监测图</h4><p>横坐标是总次数，纵坐标是内存消耗<br><img src="http://i2.buimg.com/7ebd701105ad6315.png" alt="内存消耗"></p>
+<h4 id="硬盘监测图-1"><a href="#硬盘监测图-1" class="headerlink" title="硬盘监测图"></a>硬盘监测图</h4><p>横坐标是总次数，纵坐标是硬盘消耗<br><img src="http://i2.buimg.com/55cbcdae57762ba4.png" alt="硬盘消耗"></p>
+<p>关于COMPACTDB操作，手动COMPACTDB，硬盘空间被压缩，所有过期键清楚，test2的最后硬盘占用5m<br>而且他的文档没有完全更新,昨天ardb被更新了,新的ardb是使用rocksDB为底层。<br>主页上说：</p>
+<blockquote>
+<p>Compact/CompactAll， 后台comapct数据， 对LevelDB/RocksDB有效<br>英文文档上说的是：<br>CompactDB - Used to compact disk store(only work for LevlDB engine), the range is current selected DB</p>
+</blockquote>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/internship/" rel="tag">#internship</a>
+          
+            <a href="/tags/ardb/" rel="tag">#ardb</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/19/2016-03-19/" rel="next" title="Django和近期学习小结">
+                <i class="fa fa-chevron-left"></i> Django和近期学习小结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/13/2016-05-13/"
+           data-title="ARDB使用测试相关" data-url="http://yoursite.com/2016/05/13/2016-05-13/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="一个西瓜" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">一个西瓜</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Something for nothing</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cainiaogg" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/yigexigua/" target="_blank">MyOld</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ARDB简介"><span class="nav-number">1.</span> <span class="nav-text">ARDB简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARDB安装及运行-centos"><span class="nav-number">2.</span> <span class="nav-text">ARDB安装及运行,centos</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行"><span class="nav-number">2.2.</span> <span class="nav-text">运行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用redis附带benchmark测试"><span class="nav-number">3.</span> <span class="nav-text">使用redis附带benchmark测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关配置"><span class="nav-number">3.1.</span> <span class="nav-text">相关配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Sentinel主从机制兼容性测试"><span class="nav-number">4.</span> <span class="nav-text">Redis Sentinel主从机制兼容性测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对以levelDB为引擎的ardb进行时间，内存，硬盘监测"><span class="nav-number">5.</span> <span class="nav-text">对以levelDB为引擎的ardb进行时间，内存，硬盘监测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试方式"><span class="nav-number">5.1.</span> <span class="nav-text">测试方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test1-无expire操作"><span class="nav-number">5.2.</span> <span class="nav-text">Test1(无expire操作)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#时间监测图"><span class="nav-number">5.2.1.</span> <span class="nav-text">时间监测图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存监测图"><span class="nav-number">5.2.2.</span> <span class="nav-text">内存监测图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#硬盘监测图"><span class="nav-number">5.2.3.</span> <span class="nav-text">硬盘监测图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test2-expire-key-5"><span class="nav-number">5.3.</span> <span class="nav-text">Test2(expire key 5)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#时间监测图-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">时间监测图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存监测图-1"><span class="nav-number">5.3.2.</span> <span class="nav-text">内存监测图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#硬盘监测图-1"><span class="nav-number">5.3.3.</span> <span class="nav-text">硬盘监测图</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">一个西瓜</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wtmlon"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post'||CONFIG.sidebar === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

@@ -1,0 +1,728 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ubuntu,python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/avatar.jpg?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="为了积累项目经验，就打算和室友一起做一个网站啊，正好三个人一个web，一个移动端，一个后台。因为最近在学python就顺路学了下Django，强行写了一发后台。赶上阿里简历直接被刷，最近又闲来无事，就来回顾一下这些天做的事。目前只在局域网内调试，等完善的能看了，部署到服务器上。">
+<meta name="keywords" content="ubuntu,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django和近期学习小结">
+<meta property="og:url" content="http://yoursite.com/2016/03/19/2016-03-19/index.html">
+<meta property="og:site_name" content="My Bakery">
+<meta property="og:description" content="为了积累项目经验，就打算和室友一起做一个网站啊，正好三个人一个web，一个移动端，一个后台。因为最近在学python就顺路学了下Django，强行写了一发后台。赶上阿里简历直接被刷，最近又闲来无事，就来回顾一下这些天做的事。目前只在局域网内调试，等完善的能看了，部署到服务器上。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-27T12:06:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django和近期学习小结">
+<meta name="twitter:description" content="为了积累项目经验，就打算和室友一起做一个网站啊，正好三个人一个web，一个移动端，一个后台。因为最近在学python就顺路学了下Django，强行写了一发后台。赶上阿里简历直接被刷，最近又闲来无事，就来回顾一下这些天做的事。目前只在局域网内调试，等完善的能看了，部署到服务器上。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> Django和近期学习小结 | My Bakery </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">My Bakery</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Django和近期学习小结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-03-19T22:01:30+08:00" content="2016-03-19">
+              2016-03-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/19/2016-03-19/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/19/2016-03-19/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          <span id="busuanzi_container_page_pv">
+            &nbsp; | &nbsp;
+            阅读量<span id="busuanzi_value_page_pv"></span>次
+          </span>
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>为了积累项目经验，就打算和室友一起做一个网站啊，正好三个人一个web，一个移动端，一个后台。因为最近在学python就顺路学了下Django，强行写了一发后台。赶上阿里简历直接被刷，最近又闲来无事，就来回顾一下这些天做的事。目前只在局域网内调试，等完善的能看了，部署到服务器上。<br><a id="more"></a></p>
+<h1 id="Django"><a href="#Django" class="headerlink" title="Django"></a>Django</h1><h2 id="django学习的一些资料"><a href="#django学习的一些资料" class="headerlink" title="django学习的一些资料"></a>django学习的一些资料</h2><p><a href="https://docs.djangoproject.com/en/1.9/" target="_blank" rel="noopener">django1.9官方文档</a><br><a href="http://djangobook.py3k.cn/2.0/chapter02/" target="_blank" rel="noopener">比较之前的版本中文</a><br><a href="http://www.ziqiangxuetang.com/django/django-tutorial.html" target="_blank" rel="noopener">自强学堂</a></p>
+<p>前期的学习照着中文文档和自强学堂里的来就可以了，不过中间遇到了不少编码的问题差点被弄崩溃。</p>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>只记得有关的部分问题了。</p>
+<h3 id="django编码问题"><a href="#django编码问题" class="headerlink" title="django编码问题"></a>django编码问题</h3><p>将django默认编码设置为utf-8，进入django/conf/global_setting.py设置</p>
+<blockquote>
+<p>DEFAULT_CHARSET = ‘utf-8’</p>
+</blockquote>
+<p>还有就是在写代码的时候里面如果出现中文，在run的时候会报错，这里需要将setting里的设置改一下</p>
+<blockquote>
+<p>LANGUAGE_CODE = ‘zh-cn’</p>
+</blockquote>
+<h3 id="mysql编码"><a href="#mysql编码" class="headerlink" title="mysql编码"></a>mysql编码</h3><p>开始mysql默认的database编码是latin1,这导致使用django默认编码是utf8的时候乱码。<br>下面附上两个有关查看mysql编码的和修改mysql编码的链接<br><a href="http://www.cnblogs.com/candle806/archive/2013/01/14/2859721.html" target="_blank" rel="noopener">修改</a><br><a href="http://zhidao.baidu.com/link?url=4bjc9rHU7-vnw0b8RZpDANaVOxhhpZpl_vxXIPYlXiIlOgTBoqf8QQoWt6HZp3-wmOTqEHGn45bmu9zFaQUM50Yb6wCjXSvE5fg7WlhwoCW" target="_blank" rel="noopener">查看</a></p>
+<p>其余的也记不清了。= =。真是想干啥找啥。</p>
+<h2 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h2><p>Request里面只记得几个常用的属性。<br>Request.method == “POST” or Request.method == “GET”,url请求方式。get 和 post<br>file = Request.FILES[“key”] 获得名为key的文件，只用过这么多<br>file.read()是获得所有数据<br>当上传数据过大的时候可以用file.multiple_chunks(),不过我基本就用过file.chunks()<br>其他的属性可以去看官方文档，我比较偷懒直接找了个中文的。<br><a href="http://blog.163.com/power_mr/blog/static/138744007201392492354260/" target="_blank" rel="noopener">Request属性表</a></p>
+<h2 id="Models和图片上传"><a href="#Models和图片上传" class="headerlink" title="Models和图片上传"></a>Models和图片上传</h2><p>Django有将自己的操作数据库的库。下面是我在网上找的比较好懂的models使用方法，里面也有对于网页请求分页的处理。<br><a href="http://old.haofly.net/django-model/#more-1570" target="_blank" rel="noopener">Models相关</a><br>关于图片上传，对于单个图片，直接在models里定义一个FileField()，这个类型的文件本质在数据库里存的是VarChar(max_length = 100),所以我将上传来的文件保存到本地的一个件夹里，并生成一个url赋值给FileField。<br>多个图片，在数据库里在定义一张表就好了。</p>
+<h2 id="静态文件和django部署到apache2上"><a href="#静态文件和django部署到apache2上" class="headerlink" title="静态文件和django部署到apache2上"></a>静态文件和django部署到apache2上</h2><p>django1.9照着<br><a href="http://www.ziqiangxuetang.com/django/django-static-files.html" target="_blank" rel="noopener">自强学堂</a><br>这里面配置就好了，可能会出现各种问题。已经记不得了。</p>
+<p>静态文件在配置的时候遇到个问题，就是在使用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py collectstatic</span><br></pre></td></tr></table></figure></p>
+<p>的时候，他会从所有app的static目录下收集资源，而我把在根目录下面建了个static 将文件放进去资源，他会收集不到</p>
+<h1 id="近期小结"><a href="#近期小结" class="headerlink" title="近期小结"></a>近期小结</h1><p>有点迷茫啊，搞了两年ACM突然不搞了，原本打算找实习的，发现一个银在手里没有什么项目经验很难找，今天就不知道该干点啥。。算了，实在不行就回家养养猪也挺好，反正无事一身轻，不想考研，学业也不繁重，这几天逗比的一脸，每天花2个多小时写写后台，然后刷刷题。蛋疼的是许久不练，感觉明显老了，帮一个初中生看了一个oi的题，大意是将k个行数相等的0，1矩阵拼在一起最后得到一个n*m的矩阵，求最大的全0矩阵,n*m&lt;1e5。刚开始想了个枚举全零矩阵的上下界，处理一下每个矩阵在这个范围内全零，在处理下边界，后来发现n*m&lt;1e5，完全没救了。</p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ubuntu/" rel="tag">#ubuntu</a>
+          
+            <a href="/tags/python/" rel="tag">#python</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/27/2016-2-27/" rel="next" title="Ubuntu配置sublime和安大校园网">
+                <i class="fa fa-chevron-left"></i> Ubuntu配置sublime和安大校园网
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/13/2016-05-13/" rel="prev" title="ARDB使用测试相关">
+                ARDB使用测试相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/19/2016-03-19/"
+           data-title="Django和近期学习小结" data-url="http://yoursite.com/2016/03/19/2016-03-19/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/images/avatar.jpg" alt="一个西瓜" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">一个西瓜</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">Something for nothing</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cainiaogg" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            <p class="site-author-name">Links</p>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.cnblogs.com/yigexigua/" target="_blank">MyOld</a>
+              </span>
+            
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Django"><span class="nav-number">1.</span> <span class="nav-text">Django</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#django学习的一些资料"><span class="nav-number">1.1.</span> <span class="nav-text">django学习的一些资料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码"><span class="nav-number">1.2.</span> <span class="nav-text">编码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#django编码问题"><span class="nav-number">1.2.1.</span> <span class="nav-text">django编码问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql编码"><span class="nav-number">1.2.2.</span> <span class="nav-text">mysql编码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Request"><span class="nav-number">1.3.</span> <span class="nav-text">Request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Models和图片上传"><span class="nav-number">1.4.</span> <span class="nav-text">Models和图片上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态文件和django部署到apache2上"><span class="nav-number">1.5.</span> <span class="nav-text">静态文件和django部署到apache2上</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#近期小结"><span class="nav-number">2.</span> <span class="nav-text">近期小结</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">一个西瓜</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wtmlon"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post'||CONFIG.sidebar === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>

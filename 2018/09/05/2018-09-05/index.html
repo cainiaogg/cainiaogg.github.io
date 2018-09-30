@@ -35,7 +35,7 @@
 <link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="db," />
 
 
 
@@ -51,17 +51,18 @@
 
 
 
-<meta name="description" content="数组的创建">
+<meta name="description" content="1 redis sds实现">
+<meta name="keywords" content="db">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java数组_Unit4">
-<meta property="og:url" content="http://yoursite.com/2016/01/26/Java-Unit4/index.html">
+<meta property="og:title" content="2018-09-05">
+<meta property="og:url" content="http://yoursite.com/2018/09/05/2018-09-05/index.html">
 <meta property="og:site_name" content="My Bakery">
-<meta property="og:description" content="数组的创建">
+<meta property="og:description" content="1 redis sds实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-27T12:06:11.000Z">
+<meta property="og:updated_time" content="2018-09-30T10:03:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java数组_Unit4">
-<meta name="twitter:description" content="数组的创建">
+<meta name="twitter:title" content="2018-09-05">
+<meta name="twitter:description" content="1 redis sds实现">
 
 
 
@@ -73,7 +74,7 @@
   };
 </script>
 
-  <title> Java数组_Unit4 | My Bakery </title>
+  <title> 2018-09-05 | My Bakery </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -204,7 +205,7 @@
             
             
               
-                Java数组_Unit4
+                2018-09-05
               
             
           </h1>
@@ -213,8 +214,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-26T10:35:11+08:00" content="2016-01-26">
-              2016-01-26
+            <time itemprop="dateCreated" datetime="2018-09-05T22:21:37+08:00" content="2018-09-05">
+              2018-09-05
             </time>
           </span>
 
@@ -223,8 +224,8 @@
               &nbsp; | &nbsp; 分类于
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/从零一起学Java/" itemprop="url" rel="index">
-                    <span itemprop="name">从零一起学Java</span>
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
                   </a>
                 </span>
 
@@ -239,8 +240,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/26/Java-Unit4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/26/Java-Unit4/" itemprop="commentsCount"></span>
+                <a href="/2018/09/05/2018-09-05/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/05/2018-09-05/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -262,46 +263,38 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="数组的创建"><a href="#数组的创建" class="headerlink" title="数组的创建"></a>数组的创建</h1><a id="more"></a>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] a = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,b;</span><br><span class="line">b = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">System.out.printf(<span class="string">"%d\n"</span>,b.length);</span><br></pre></td></tr></table></figure>
-<p>int[] 声明一个整型的数组对象<br>b = new int[10] b申请十个整型大小的空间<br>a = {1, 2, 3} 直接将a初始化为a[0] = 1,a[1] = 2,a[2] = 3<br>length 是 b数组的一个属性，表示b这个数组的长度</p>
-<h1 id="数组的拷贝"><a href="#数组的拷贝" class="headerlink" title="数组的拷贝"></a>数组的拷贝</h1><h2 id="一个是类似引用"><a href="#一个是类似引用" class="headerlink" title="一个是类似引用"></a>一个是类似引用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] a = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,b = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        a = b;</span><br><span class="line">        a[<span class="number">0</span>] = <span class="number">8</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++)&#123;</span><br><span class="line">            System.out.printf(<span class="string">"%d "</span>,a[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">        System.out.println(b[<span class="number">0</span>]);<span class="comment">//怕你看不见，这里自己看下</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>复杂度O(1)<br>输出结果如下</p>
-<blockquote>
-<p>8 3 4<br>8</p>
-</blockquote>
-<h2 id="另一个使用arraycopy函数"><a href="#另一个使用arraycopy函数" class="headerlink" title="另一个使用arraycopy函数"></a>另一个使用arraycopy函数</h2><blockquote>
-<p>public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] a = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,b = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;;</span><br><span class="line">        System.arraycopy(a,<span class="number">0</span>,b,<span class="number">0</span>,<span class="number">3</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++)&#123;</span><br><span class="line">            System.out.printf(<span class="string">"%d "</span>,b[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果如下</p>
-<blockquote>
-<p>1 2 3<br>arraycopy(a,0,b,0,3)的意思是从a数组的0位开始长度为3的一群数拷贝到b数组从0开始的位置上，如果越界，会抛出异常<br><del>具体复杂度应该是O(n)但是比手写复制跑的快。我揣测</del></p>
-</blockquote>
-<h1 id="多维数组-and-for-each-语句"><a href="#多维数组-and-for-each-语句" class="headerlink" title="多维数组 and (for each 语句)"></a>多维数组 and (for each 语句)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> [][] a;<span class="comment">//定义多维数组</span></span><br><span class="line">        a = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>][];<span class="comment">//定义第一维大小</span></span><br><span class="line">        a[<span class="number">0</span>] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">1</span>];</span><br><span class="line">        a[<span class="number">1</span>] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">        a[<span class="number">2</span>] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>];</span><br><span class="line">        a[<span class="number">3</span>] = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">4</span>];<span class="comment">//定义第二维不规则大小</span></span><br><span class="line">        a[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        a[<span class="number">1</span>][<span class="number">0</span>] = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> [] i:a)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j :i)</span><br><span class="line">                System.out.printf(<span class="string">"%d "</span>,j);</span><br><span class="line">        &#125;<span class="comment">//for each 语句</span></span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里面二维数组每一维的大小都是可变的<br>for each语句的格式如下<br>for(数据类型 变量:集合)</p>
-<h1 id="相关练习"><a href="#相关练习" class="headerlink" title="相关练习"></a>相关练习</h1><p>实现冒泡排序，快速排序</p>
+        <span itemprop="articleBody"><h1 id="1-redis-sds实现"><a href="#1-redis-sds实现" class="headerlink" title="1 redis sds实现"></a>1 redis sds实现</h1><a id="more"></a>
+<h1 id="adlist-A-generic-doubly-linked-list-implementation"><a href="#adlist-A-generic-doubly-linked-list-implementation" class="headerlink" title="adlist (A generic doubly linked list implementation)"></a>adlist (A generic doubly linked list implementation)</h1><h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>）正常链表实现。。。</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">## 一、结构</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">链表节点</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">prev</span>;</span>  <span class="comment">//前置节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">listNode</span> *<span class="title">next</span>;</span>  <span class="comment">//后置节点</span></span><br><span class="line">    <span class="keyword">void</span> *value;</span><br><span class="line">&#125; listNode;</span><br><span class="line"></span><br><span class="line">迭代器</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">listIter</span> &#123;</span></span><br><span class="line">    listNode *next;</span><br><span class="line">    <span class="keyword">int</span> direction;      </span><br><span class="line">    <span class="comment">// #define AL_START_HEAD 0</span></span><br><span class="line">    <span class="comment">// #define AL_START_TAIL 1</span></span><br><span class="line">&#125; listIter;</span><br><span class="line"></span><br><span class="line">链表</span><br><span class="line">构造函数，析构函数，==重载</span><br><span class="line"><span class="keyword">typedef</span> struct <span class="built_in">list</span> &#123;</span><br><span class="line">    listNode *head;</span><br><span class="line">    listNode *tail;</span><br><span class="line">    <span class="comment">//复制函数指针，用于listDup中复制value，用户实现。</span></span><br><span class="line">    <span class="keyword">void</span> *(*dup)(<span class="keyword">void</span> *ptr);  </span><br><span class="line">    <span class="comment">//释放函数指针，用于listRelease中释放value，用户实现。</span></span><br><span class="line">    <span class="keyword">void</span> (*<span class="built_in">free</span>)(<span class="keyword">void</span> *ptr);</span><br><span class="line">    <span class="comment">//等值函数指针，用于listSearchKey搜索值，用户实现。</span></span><br><span class="line">    <span class="keyword">int</span> (*match)(<span class="keyword">void</span> *ptr, <span class="keyword">void</span> *key);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> len;</span><br><span class="line">&#125; <span class="built_in">list</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="二、Api"><a href="#二、Api" class="headerlink" title="二、Api"></a>二、Api</h2><p>1、简单解释下链表复制操作<br>list <em>listDup(list </em>orig);<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listDup</span><span class="params">(<span class="built_in">list</span> *orig)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">list</span> *copy;             <span class="comment">//copy指针</span></span><br><span class="line">    listIter iter;          <span class="comment">//迭代器</span></span><br><span class="line">    listNode *node;         <span class="comment">//链表节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((copy = listCreate()) == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    copy-&gt;dup = orig-&gt;dup;</span><br><span class="line">    copy-&gt;<span class="built_in">free</span> = orig-&gt;<span class="built_in">free</span>;</span><br><span class="line">    copy-&gt;match = orig-&gt;match;      <span class="comment">//复制  构造，析构，==函数。</span></span><br><span class="line">    listRewind(orig, &amp;iter);        <span class="comment">//初始化迭代器指向head，迭代方向指向尾部</span></span><br><span class="line">    <span class="keyword">while</span>((node = listNext(&amp;iter)) != <span class="literal">NULL</span>) &#123; <span class="comment">//开始迭代</span></span><br><span class="line">        <span class="keyword">void</span> *value;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (copy-&gt;dup) &#123;</span><br><span class="line">            value = copy-&gt;dup(node-&gt;value); <span class="comment">//复制node-&gt;value值</span></span><br><span class="line">            <span class="keyword">if</span> (value == <span class="literal">NULL</span>) &#123;</span><br><span class="line">                listRelease(copy);          <span class="comment">//失败释放copy链表，清除每个listNode本身 和 value值。 zfree &amp; this-&gt;free</span></span><br><span class="line">                <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span></span><br><span class="line">            value = node-&gt;value;</span><br><span class="line">        <span class="comment">//尾部增加节点，如果是第一个节点，头尾指针指向节点本身，先后节点指空，</span></span><br><span class="line">        <span class="comment">//如果不是第一个节点, value的pre节点指向tail节点，value的next节点置空, 当前list的tail节点next节点指向value，当前tail节点变为value节点</span></span><br><span class="line">        <span class="comment">//内存申请失败，释放copy链表</span></span><br><span class="line">        <span class="keyword">if</span> (listAddNodeTail(copy, value) == <span class="literal">NULL</span>) &#123;</span><br><span class="line">            listRelease(copy);</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> copy; <span class="comment">//返回copy的拷贝，函数执行下一行copy指针回收(正常情况)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listCreate</span><span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listRelease</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listAddNodeHead</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, <span class="keyword">void</span> *value)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listAddNodeTail</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, <span class="keyword">void</span> *value)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listInsertNode</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, listNode *old_node, <span class="keyword">void</span> *value, <span class="keyword">int</span> after)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listDelNode</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, listNode *node)</span></span>;</span><br><span class="line"><span class="function">listIter *<span class="title">listGetIterator</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, <span class="keyword">int</span> direction)</span></span>;</span><br><span class="line"><span class="function">listNode *<span class="title">listNext</span><span class="params">(listIter *iter)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listReleaseIterator</span><span class="params">(listIter *iter)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">listDup</span><span class="params">(<span class="built_in">list</span> *orig)</span></span>;</span><br><span class="line"><span class="function">listNode *<span class="title">listSearchKey</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, <span class="keyword">void</span> *key)</span></span>;</span><br><span class="line"><span class="function">listNode *<span class="title">listIndex</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, <span class="keyword">long</span> index)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listRewind</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, listIter *li)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listRewindTail</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>, listIter *li)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">listRotate</span><span class="params">(<span class="built_in">list</span> *<span class="built_in">list</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 </span>
       
     </div>
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/db/" rel="tag">#db</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/18/Java-Unit3/" rel="next" title="Java控制流程语句_Unit3">
-                <i class="fa fa-chevron-left"></i> Java控制流程语句_Unit3
+              <a href="/2018/09/04/2018-09-04/" rel="next" title="2018-09-04">
+                <i class="fa fa-chevron-left"></i> 2018-09-04
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/02/27/2016-2-27/" rel="prev" title="Ubuntu配置sublime和安大校园网">
-                Ubuntu配置sublime和安大校园网 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/06/2018-09-06/" rel="prev" title="2018-09-06">
+                2018-09-06 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -329,8 +322,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/26/Java-Unit4/"
-           data-title="Java数组_Unit4" data-url="http://yoursite.com/2016/01/26/Java-Unit4/">
+      <div class="ds-thread" data-thread-key="2018/09/05/2018-09-05/"
+           data-title="2018-09-05" data-url="http://yoursite.com/2018/09/05/2018-09-05/">
       </div>
     
   </div>
@@ -437,7 +430,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数组的创建"><span class="nav-number">1.</span> <span class="nav-text">数组的创建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数组的拷贝"><span class="nav-number">2.</span> <span class="nav-text">数组的拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个是类似引用"><span class="nav-number">2.1.</span> <span class="nav-text">一个是类似引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另一个使用arraycopy函数"><span class="nav-number">2.2.</span> <span class="nav-text">另一个使用arraycopy函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多维数组-and-for-each-语句"><span class="nav-number">3.</span> <span class="nav-text">多维数组 and (for each 语句)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关练习"><span class="nav-number">4.</span> <span class="nav-text">相关练习</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-redis-sds实现"><span class="nav-number">1.</span> <span class="nav-text">1 redis sds实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#adlist-A-generic-doubly-linked-list-implementation"><span class="nav-number">2.</span> <span class="nav-text">adlist (A generic doubly linked list implementation)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">2.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Api"><span class="nav-number">2.3.</span> <span class="nav-text">二、Api</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

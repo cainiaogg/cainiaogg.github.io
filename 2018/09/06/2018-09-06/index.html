@@ -51,19 +51,19 @@
 
 
 
-<meta name="description" content="4.1 redis Dict实现">
+<meta name="description" content="4 redis Dict实现">
 <meta name="keywords" content="db">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018-09-06">
 <meta property="og:url" content="http://yoursite.com/2018/09/06/2018-09-06/index.html">
 <meta property="og:site_name" content="My Bakery">
-<meta property="og:description" content="4.1 redis Dict实现">
+<meta property="og:description" content="4 redis Dict实现">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/redis/dictAdd.png">
-<meta property="og:updated_time" content="2018-09-30T08:45:18.000Z">
+<meta property="og:updated_time" content="2018-09-30T10:00:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018-09-06">
-<meta name="twitter:description" content="4.1 redis Dict实现">
+<meta name="twitter:description" content="4 redis Dict实现">
 <meta name="twitter:image" content="http://yoursite.com/uploads/redis/dictAdd.png">
 
 
@@ -265,7 +265,7 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="4-1-redis-Dict实现"><a href="#4-1-redis-Dict实现" class="headerlink" title="4.1 redis Dict实现"></a>4.1 redis Dict实现</h1><a id="more"></a>
+        <span itemprop="articleBody"><h1 id="4-redis-Dict实现"><a href="#4-redis-Dict实现" class="headerlink" title="4 redis Dict实现"></a>4 redis Dict实现</h1><a id="more"></a>
 <h1 id="Hash-Tables-Implementation"><a href="#Hash-Tables-Implementation" class="headerlink" title="Hash Tables Implementation"></a>Hash Tables Implementation</h1><h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><p>redis的hash操作 version:3.2.9</p>
 <p>1) 逆序一个64未数的二进制形式<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*原理如下：</span></span><br><span class="line"><span class="comment">43218765 &lt;- 87654321</span></span><br><span class="line"><span class="comment">21436587 &lt;- 43218765</span></span><br><span class="line"><span class="comment">12345678 &lt;- 21436587</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">mask -&gt; 11110000 -&gt; 00110011 -&gt; 01010101</span></span><br><span class="line"><span class="comment">     -&gt; 32字节相邻swap -&gt; 16字节相邻swap</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">rev</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">long</span> v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> s = <span class="number">8</span> * <span class="keyword">sizeof</span>(v); <span class="comment">// bit size; must be power of 2</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> mask = ~<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> ((s &gt;&gt;= <span class="number">1</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        mask ^= (mask &lt;&lt; s);</span><br><span class="line">        v = ((v &gt;&gt; s) &amp; mask) | ((v &lt;&lt; s) &amp; ~mask);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>) 逆序进位和遍历高位字典方式不统一问题, 详细见后文</span><br><span class="line"><span class="number">0000</span> -&gt; <span class="number">0001</span> -&gt; <span class="number">0010</span></span><br><span class="line"><span class="number">0000</span> -&gt; <span class="number">1000</span> -&gt; <span class="number">0100</span></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>) 高位向低位进位这个问题大致猜测一下:低位槽位相同的数据是连一块的，只需要访问高位多出来的那部分，而不用从 高位最低位开始增加至溢出（牛批）。</span><br><span class="line"></span><br><span class="line"><span class="number">00</span>-&gt;<span class="number">10</span>(<span class="number">010</span>, <span class="number">110</span>)-&gt;<span class="number">01</span>(<span class="number">001</span>, <span class="number">101</span>)-&gt;<span class="number">11</span>(<span class="number">011</span>, <span class="number">111</span>)</span><br><span class="line"><span class="number">000</span>-&gt;<span class="number">100</span>-&gt;(<span class="number">010</span>-&gt;<span class="number">110</span>)-&gt;(<span class="number">001</span>-&gt;<span class="number">101</span>)-&gt;(<span class="number">011</span>-&gt;<span class="number">111</span>)</span><br><span class="line"></span><br><span class="line"><span class="number">00</span>-&gt;<span class="number">01</span>-&gt;<span class="number">10</span>-&gt;<span class="number">11</span></span><br><span class="line"><span class="number">000</span>-&gt;<span class="number">001</span>-&gt;<span class="number">010</span>-&gt;<span class="number">011</span>-&gt;<span class="number">100</span>-&gt;<span class="number">101</span>-&gt;<span class="number">110</span>-&gt;<span class="number">111</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis的hash表</span><br><span class="line"><span class="number">1</span>）hash函数</span><br><span class="line"><span class="number">2</span>）rehash过程</span><br><span class="line"><span class="number">3</span>）dictScan过程 (scan key val)</span><br></pre></td></tr></table></figure>
@@ -292,8 +292,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/13/2016-05-13/" rel="next" title="ARDB使用测试相关">
-                <i class="fa fa-chevron-left"></i> ARDB使用测试相关
+              <a href="/2018/09/05/2018-09-05/" rel="next" title="2018-09-05">
+                <i class="fa fa-chevron-left"></i> 2018-09-05
               </a>
             
           </div>
@@ -374,7 +374,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -437,7 +437,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#4-1-redis-Dict实现"><span class="nav-number">1.</span> <span class="nav-text">4.1 redis Dict实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hash-Tables-Implementation"><span class="nav-number">2.</span> <span class="nav-text">Hash Tables Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">2.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">2.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash函数"><span class="nav-number">2.4.</span> <span class="nav-text">hash函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rehash过程"><span class="nav-number">2.5.</span> <span class="nav-text">rehash过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dictScan"><span class="nav-number">2.6.</span> <span class="nav-text">dictScan</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#4-redis-Dict实现"><span class="nav-number">1.</span> <span class="nav-text">4 redis Dict实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hash-Tables-Implementation"><span class="nav-number">2.</span> <span class="nav-text">Hash Tables Implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">2.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">2.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash函数"><span class="nav-number">2.4.</span> <span class="nav-text">hash函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rehash过程"><span class="nav-number">2.5.</span> <span class="nav-text">rehash过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dictScan"><span class="nav-number">2.6.</span> <span class="nav-text">dictScan</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

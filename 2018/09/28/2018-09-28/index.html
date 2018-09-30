@@ -51,18 +51,18 @@
 
 
 
-<meta name="description" content="4.1 redis 跳表实现">
+<meta name="description" content="5 redis 跳表实现">
 <meta name="keywords" content="db">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2018-09-28">
 <meta property="og:url" content="http://yoursite.com/2018/09/28/2018-09-28/index.html">
 <meta property="og:site_name" content="My Bakery">
-<meta property="og:description" content="4.1 redis 跳表实现">
+<meta property="og:description" content="5 redis 跳表实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-09-30T09:55:39.000Z">
+<meta property="og:updated_time" content="2018-09-30T10:00:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2018-09-28">
-<meta name="twitter:description" content="4.1 redis 跳表实现">
+<meta name="twitter:description" content="5 redis 跳表实现">
 
 
 
@@ -263,7 +263,7 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="4-1-redis-跳表实现"><a href="#4-1-redis-跳表实现" class="headerlink" title="4.1 redis 跳表实现"></a>4.1 redis 跳表实现</h1><a id="more"></a>
+        <span itemprop="articleBody"><h1 id="5-redis-跳表实现"><a href="#5-redis-跳表实现" class="headerlink" title="5 redis 跳表实现"></a>5 redis 跳表实现</h1><a id="more"></a>
 <h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><p>redis的跳表实现 version:3.2.9</p>
 <p>1)<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__FILE__, __LINE__ 文件，行</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> serverAssert(_e) ((_e)?(void)0 : (_serverAssert(#_e,__FILE__,__LINE__),_exit(1)))</span></span><br></pre></td></tr></table></figure></p>
 <p>2) 和各种二分的树很像，在原来数据区间分治的方式简历索引。<br>大致结构如下<br>上层索引：1        -&gt;          8<br>上层索引：1    -&gt;  4      -&gt;   8<br>底层节点：1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;6-&gt;7-&gt;8<br>。。上面这个结构线段树也是这样的，查找、更新(单点)的时候从上层节点按照区间的方式，判断属于哪一个区间，直至底层节点(复杂度线段树log(n), 跳表也是log(n), 证明方式掠过。。).<br>下面来看下 增加 和 删除操作。</p>
@@ -294,6 +294,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/29/2018-09-29/" rel="prev" title="2018-09-29">
+                2018-09-29 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -365,7 +369,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -428,7 +432,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#4-1-redis-跳表实现"><span class="nav-number">1.</span> <span class="nav-text">4.1 redis 跳表实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加key，val，（查找，增加）"><span class="nav-number">1.4.</span> <span class="nav-text">增加key，val，（查找，增加）</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5-redis-跳表实现"><span class="nav-number">1.</span> <span class="nav-text">5 redis 跳表实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增加key，val，（查找，增加）"><span class="nav-number">1.4.</span> <span class="nav-text">增加key，val，（查找，增加）</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">

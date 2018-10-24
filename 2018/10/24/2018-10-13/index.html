@@ -51,18 +51,18 @@
 
 
 
-<meta name="description" content="7 redis intset实现">
+<meta name="description" content="9 redis ziplist实现">
 <meta name="keywords" content="db">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2018-09-29">
-<meta property="og:url" content="http://yoursite.com/2018/09/29/2018-09-29/index.html">
+<meta property="og:title" content="2018-10-24">
+<meta property="og:url" content="http://yoursite.com/2018/10/24/2018-10-13/index.html">
 <meta property="og:site_name" content="My Bakery">
-<meta property="og:description" content="7 redis intset实现">
+<meta property="og:description" content="9 redis ziplist实现">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-24T07:23:34.000Z">
+<meta property="og:updated_time" content="2018-10-24T07:24:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="2018-09-29">
-<meta name="twitter:description" content="7 redis intset实现">
+<meta name="twitter:title" content="2018-10-24">
+<meta name="twitter:description" content="9 redis ziplist实现">
 
 
 
@@ -74,7 +74,7 @@
   };
 </script>
 
-  <title> 2018-09-29 | My Bakery </title>
+  <title> 2018-10-24 | My Bakery </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -205,7 +205,7 @@
             
             
               
-                2018-09-29
+                2018-10-24
               
             
           </h1>
@@ -214,8 +214,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2018-09-29T10:14:21+08:00" content="2018-09-29">
-              2018-09-29
+            <time itemprop="dateCreated" datetime="2018-10-24T10:14:21+08:00" content="2018-10-24">
+              2018-10-24
             </time>
           </span>
 
@@ -240,8 +240,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2018/09/29/2018-09-29/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/09/29/2018-09-29/" itemprop="commentsCount"></span>
+                <a href="/2018/10/24/2018-10-13/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/10/24/2018-10-13/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -263,12 +263,14 @@
       
 
       
-        <span itemprop="articleBody"><h1 id="7-redis-intset实现"><a href="#7-redis-intset实现" class="headerlink" title="7 redis intset实现"></a>7 redis intset实现</h1><a id="more"></a>
-<h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><p>*set中数据较少，且都为整数，则使用intset作为set底层数据结构</p>
-<p>无序整数set实现（not multiset)<br>1) BYTE_ORDER endian.h 中的常量宏<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">if</span> (BYTE_ORDER == LITTLE_ENDIAN)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> memrev16ifbe(p)</span></span><br></pre></td></tr></table></figure></p>
-<p>2) 简单说下大小端。<br>大端序：高位地址存低位字节: int a = 1, 10000000<br>小端序：低位地址存低位字节: int a = 1, 00000001</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis的跳表</span><br><span class="line"><span class="number">1</span>) 结构</span><br><span class="line"><span class="number">2</span>) 升级</span><br><span class="line"><span class="number">3</span>) 举例</span><br></pre></td></tr></table></figure>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">intset</span> &#123;</span></span><br><span class="line">    <span class="keyword">uint32_t</span> encoding; <span class="comment">//编码方式，</span></span><br><span class="line">    <span class="keyword">uint32_t</span> length;</span><br><span class="line">    <span class="keyword">int8_t</span> contents[];</span><br><span class="line">&#125; intset;</span><br></pre></td></tr></table></figure>
+        <span itemprop="articleBody"><h1 id="9-redis-ziplist实现"><a href="#9-redis-ziplist实现" class="headerlink" title="9 redis ziplist实现"></a>9 redis ziplist实现</h1><a id="more"></a>
+<h2 id="note"><a href="#note" class="headerlink" title="note"></a>note</h2><ul>
+<li>单个值为占用空间比较少的数据内容</li>
+<li>根据数据类型不同，选择不同的存储结构</li>
+<li>使得小内存数据密集排列，减少对内存打散的压力</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis的压缩链表</span><br><span class="line"><span class="number">1</span>) 结构</span><br><span class="line"><span class="number">2</span>) 连锁更新</span><br></pre></td></tr></table></figure>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">为了将数据放在一起，同时区分不同的数据，使用如下数据协议。没有像LZ4那种需要编码压缩的操作，编码解码支持不同数据的区分。</span><br><span class="line"></span><br><span class="line">zlbytes|zltail|zllen|zlentry|zlend</span><br><span class="line"></span><br><span class="line">zlbytes: 压缩列表,占用字节数 (<span class="number">4</span> bytes) <span class="keyword">uint32_t</span></span><br><span class="line">zltail:  最后一个zlentry指针 (<span class="number">4</span> bytes) <span class="keyword">uint32_t</span></span><br><span class="line">zllen:   zlentry节点数量（<span class="number">2</span> bytes) <span class="keyword">uint16_t</span> 最大<span class="number">65536</span></span><br><span class="line">zlentry: 如下结构，节点信息</span><br><span class="line"></span><br><span class="line">pre_entry_length|encoding|content</span><br><span class="line"></span><br><span class="line">pre_entry_length:</span><br><span class="line"><span class="number">1</span>) 表示上一个entry的长度，如果前两位是x0fe，那么占用<span class="number">5</span>个字节；否则，占用<span class="number">1</span>个字节，整个<span class="number">1</span>个字节用于表示前一个entry长度。</span><br><span class="line">（由于每个节点都记录这个节点conten的长度，所以可以知道每个entry的结束位置，但是整个zl的结束位置是用<span class="number">0xff</span>区分，entry的首部最大值是<span class="number">0xfe</span>）</span><br><span class="line"></span><br><span class="line">encoding:</span><br><span class="line"><span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">下述结构体对上述格式数据解码可得</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zlentry</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> prevrawlensize, prevrawlen; <span class="comment">//prevrawlensize = 1 or 5 用于描述prevrawlen占空间大小,</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> lensize, len;               <span class="comment">//lensize = 1 or 2 or 5 用于描述len占空间大小，第一个字节的前2位来标识coding格式，</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> headersize;                 <span class="comment">//prevrawlensize + lensize</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> encoding;                  <span class="comment">//coding</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *p;                        <span class="comment">//前面一个entry</span></span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure>
 <h2 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h2><p>*不存在降级操作。</p>
 <p>假设系统小端序<br>1、现存在集合: 1,2,3,4,5,6,7 encoding = 2(sizeof(int16_t)), length = 7, 占用空间：sizeof(int16_t) <em> 7<br>2、插入数据 2^16 + 20<br>3、得到新集合: 1,2,3,4,5,6,7,2^16+20, encoding = 4(sizeof(int32_t)), length = 8，占用空间: sizeof(int32_t) </em> 8<br>4、插入数据 25<br>5、二分原有序序列，找到大于等于25的下标pos=7,将pos后所有数据向后移动sizeof(int32_t)字节位<br>6、得到数据：1,2,3,4,5,6,7,,2^16+20<br>7、插入数据：1,2,3,4,5,6,7,25,2^16+20</p>
 <h2 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Insert an integer in the intset */</span></span><br><span class="line"><span class="function">intset *<span class="title">intsetAdd</span><span class="params">(intset *is, <span class="keyword">int64_t</span> value, <span class="keyword">uint8_t</span> *success)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">uint8_t</span> valenc = _intsetValueEncoding(value); <span class="comment">//返回值大小对应的种类, sizeof(int32_t or int64_t)</span></span><br><span class="line">    <span class="keyword">uint32_t</span> pos;                             </span><br><span class="line">    <span class="keyword">if</span> (success) *success = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Upgrade encoding if necessary. If we need to upgrade, we know that</span></span><br><span class="line"><span class="comment">     * this value should be either appended (if &gt; 0) or prepended (if &lt; 0),</span></span><br><span class="line"><span class="comment">     * because it lies outside the range of existing values. */</span></span><br><span class="line">    <span class="comment">/*判断是否要升级*/</span></span><br><span class="line">    <span class="keyword">if</span> (valenc &gt; intrev32ifbe(is-&gt;encoding)) &#123;</span><br><span class="line">        <span class="comment">/* This always succeeds, so we don't need to curry *success. */</span></span><br><span class="line">        <span class="keyword">return</span> intsetUpgradeAndAdd(is,value);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">/* Abort if the value is already present in the set.</span></span><br><span class="line"><span class="comment">         * This call will populate "pos" with the right position to insert</span></span><br><span class="line"><span class="comment">         * the value when it cannot be found. */</span></span><br><span class="line">        <span class="comment">//对原有有序数据二分找到第一个大于等于value的pos</span></span><br><span class="line">        <span class="keyword">if</span> (intsetSearch(is,value,&amp;pos)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (success) *success = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">return</span> is;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//pos,end memmove 至 pos+1，end</span></span><br><span class="line">        is = intsetResize(is,intrev32ifbe(is-&gt;length)+<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (pos &lt; intrev32ifbe(is-&gt;length)) intsetMoveTail(is,pos,pos+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//插入</span></span><br><span class="line">    _intsetSet(is,pos,value);</span><br><span class="line">    is-&gt;length = intrev32ifbe(intrev32ifbe(is-&gt;length)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> is;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Upgrades the intset to a larger encoding and inserts the given integer. */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> intset *<span class="title">intsetUpgradeAndAdd</span><span class="params">(intset *is, <span class="keyword">int64_t</span> value)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//当前编码</span></span><br><span class="line">    <span class="keyword">uint8_t</span> curenc = intrev32ifbe(is-&gt;encoding);</span><br><span class="line">    <span class="comment">//新编码</span></span><br><span class="line">    <span class="keyword">uint8_t</span> newenc = _intsetValueEncoding(value);</span><br><span class="line">    <span class="comment">//intset 元素个数</span></span><br><span class="line">    <span class="keyword">int</span> length = intrev32ifbe(is-&gt;length);</span><br><span class="line">    <span class="comment">//小与0的数放到set前面</span></span><br><span class="line">    <span class="keyword">int</span> prepend = value &lt; <span class="number">0</span> ? <span class="number">1</span> : <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//设置新的编码，并且调整intset大小, 多增加一个元素</span></span><br><span class="line">    <span class="comment">/* First set new encoding and resize */</span></span><br><span class="line">    is-&gt;encoding = intrev32ifbe(newenc);</span><br><span class="line">    is = intsetResize(is,intrev32ifbe(is-&gt;length)+<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Upgrade back-to-front so we don't overwrite values.</span></span><br><span class="line"><span class="comment">     * Note that the "prepend" variable is used to make sure we have an empty</span></span><br><span class="line"><span class="comment">     * space at either the beginning or the end of the intset. */</span></span><br><span class="line">    <span class="comment">//_intsetGetEncoded 通过旧编码和下标升级原有元素至新的编码</span></span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">    <span class="keyword">while</span>(length--)</span><br><span class="line">        _intsetSet(is,length+prepend,_intsetGetEncoded(is,length,curenc));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//负数置于数据首位, 整数置于末尾，保证有序</span></span><br><span class="line">    <span class="comment">/* Set the value at the beginning or the end. */</span></span><br><span class="line">    <span class="keyword">if</span> (prepend)</span><br><span class="line">        _intsetSet(is,<span class="number">0</span>,value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        _intsetSet(is,intrev32ifbe(is-&gt;length),value);</span><br><span class="line">    is-&gt;length = intrev32ifbe(intrev32ifbe(is-&gt;length)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> is;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">intsetMoveTail</span><span class="params">(intset *is, <span class="keyword">uint32_t</span> from, <span class="keyword">uint32_t</span> to)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *src, *dst;</span><br><span class="line">    <span class="keyword">uint32_t</span> bytes = intrev32ifbe(is-&gt;length)-from;</span><br><span class="line">    <span class="keyword">uint32_t</span> encoding = intrev32ifbe(is-&gt;encoding);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (encoding == INTSET_ENC_INT64) &#123;</span><br><span class="line">        src = (<span class="keyword">int64_t</span>*)is-&gt;contents+from;</span><br><span class="line">        dst = (<span class="keyword">int64_t</span>*)is-&gt;contents+to;</span><br><span class="line">        bytes *= <span class="keyword">sizeof</span>(<span class="keyword">int64_t</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (encoding == INTSET_ENC_INT32) &#123;</span><br><span class="line">        src = (<span class="keyword">int32_t</span>*)is-&gt;contents+from;</span><br><span class="line">        dst = (<span class="keyword">int32_t</span>*)is-&gt;contents+to;</span><br><span class="line">        bytes *= <span class="keyword">sizeof</span>(<span class="keyword">int32_t</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        src = (<span class="keyword">int16_t</span>*)is-&gt;contents+from;</span><br><span class="line">        dst = (<span class="keyword">int16_t</span>*)is-&gt;contents+to;</span><br><span class="line">        bytes *= <span class="keyword">sizeof</span>(<span class="keyword">int16_t</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//保证内存重叠不覆盖,  [1,10] 复制到 [3, 11] , 从10开始复制， [3,11] 复制到 【1，10】从3开始复制</span></span><br><span class="line">    memmove(dst,src,bytes);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -289,17 +291,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/09/28/2018-09-28/" rel="next" title="2018-09-28">
-                <i class="fa fa-chevron-left"></i> 2018-09-28
+              <a href="/2018/10/12/2018-10-12/" rel="next" title="2018-10-12">
+                <i class="fa fa-chevron-left"></i> 2018-10-12
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/12/2018-10-12/" rel="prev" title="2018-10-12">
-                2018-10-12 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -326,8 +324,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2018/09/29/2018-09-29/"
-           data-title="2018-09-29" data-url="http://yoursite.com/2018/09/29/2018-09-29/">
+      <div class="ds-thread" data-thread-key="2018/10/24/2018-10-13/"
+           data-title="2018-10-24" data-url="http://yoursite.com/2018/10/24/2018-10-13/">
       </div>
     
   </div>
@@ -434,7 +432,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#7-redis-intset实现"><span class="nav-number">1.</span> <span class="nav-text">7 redis intset实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级"><span class="nav-number">1.4.</span> <span class="nav-text">升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改查"><span class="nav-number">1.5.</span> <span class="nav-text">增删改查</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#9-redis-ziplist实现"><span class="nav-number">1.</span> <span class="nav-text">9 redis ziplist实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#note"><span class="nav-number">1.1.</span> <span class="nav-text">note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">1.3.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级"><span class="nav-number">1.4.</span> <span class="nav-text">升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改查"><span class="nav-number">1.5.</span> <span class="nav-text">增删改查</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
